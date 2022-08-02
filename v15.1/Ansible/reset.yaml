@@ -1,0 +1,34 @@
+---
+- name: Reset and update passwords
+  hosts: bigips
+  gather_facts: false
+  connection: local
+  vars:
+    provider:
+      server: "{{ inventory_hostname }}" 
+      user: "{{ admin_user }}"
+      password: "{{ admin_password }}" 
+      validate_certs: false
+
+  tasks:
+  - name: Reset BIG-IP
+    bigip_config:
+      reset: yes
+      save: true
+      provider: "{{ provider }}"
+      
+  - pause:
+      seconds: 15
+      
+  - name: Configure admin password
+    uri:
+      url: "https://{{ inventory_hostname }}/mgmt/shared/authz/users/admin"
+      method: PATCH
+      body: '{"oldPassword":"{{ admin_default_password }}", "password":"{{ admin_password }}"}'
+      body_format: json
+      validate_certs: no
+      force_basic_auth: yes
+      user: "{{ admin_user }}"
+      password: "{{ admin_default_password }}" 
+      headers:
+        Content-Type: "application/json"

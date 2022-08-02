@@ -1,0 +1,64 @@
+---
+- name: Create BIG-IP App
+  hosts: bigips
+  gather_facts: false
+  connection: local
+  vars:
+    provider:
+      server: "{{ inventory_hostname }}" 
+      user: "{{ admin_user }}"
+      password: "{{ admin_password }}" 
+      validate_certs: false
+
+  tasks:
+  - name: Gather bigip facts
+    bigip_device_info:
+      gather_subset: devices
+      provider: "{{ provider }}"
+    register: facts
+
+  - block:
+    - name: Create Monitor
+      bigip_monitor_http:
+        name: app.mon
+        send: GET /
+        receive: If you see this
+        provider: "{{ provider }}"
+
+    - name: Create Pool
+      bigip_pool:
+        name: app.pool
+        monitors: app.mon
+        provider: "{{ provider }}"
+
+    - name: Add pool member
+      bigip_pool_member:
+        pool: app.pool
+        host: "{{ item }}"
+        port: 80
+        provider: "{{ provider }}"
+      with_items:
+      - 10.10.X.1
+      - 10.10.X.2
+      - 10.10.X.3
+
+    - name: Create Virtual Server 
+      bigip_virtual_server:
+        name: app.vs
+        destination: 10.10.X.101
+        port: "443"
+        pool: app.pool
+        profiles:
+        - http
+        - name: clientssl
+          context: client-side
+        snat: automap
+        provider: "{{ provider }}"
+
+    - name: Run Config Sync 
+      bigip_configsync_action:
+        device_group: dev-grp
+        sync_device_to_group: true
+        provider: "{{ provider }}"
+
+    when: inventory_hostname == ((facts.devices | selectattr('failover_state', 'search', 'active') | first).name).split('.')[0]

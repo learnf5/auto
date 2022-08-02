@@ -1,0 +1,96 @@
+---
+- name: Onboard BIG-IP
+  hosts: bigips
+  gather_facts: false
+  connection: local
+  vars:
+    provider:
+      server: "{{ inventory_hostname }}"
+      user: "{{ admin_user }}"
+      password: "{{ admin_password }}" 
+      validate_certs: false
+
+  tasks:
+  - name: Set Timezone and NTP Server
+    bigip_device_ntp:
+      timezone: America/Los_Angeles 
+      ntp_servers:
+      - pool.ntp.org
+      provider: "{{ provider }}"
+
+  - name: Set Hostname
+    bigip_hostname:
+      hostname: "{{ inventory_hostname }}.f5trn.com" 
+      provider: "{{ provider }}"
+
+  - name: Set DNS
+    bigip_device_dns:
+      name_servers:
+      - 10.10.X.2
+      search:
+      - f5trn.com
+      provider: "{{ provider }}"
+
+  - name: Create External VLAN
+    bigip_vlan:
+      name: external.vlan
+      untagged_interface: 1.2
+      tag: 4093
+      provider: "{{ provider }}"
+
+  - name: Create External Self IP
+    bigip_selfip:
+      name: external.self
+      vlan: external.vlan
+      address: "{{ ext_ip }}"
+      netmask: "{{ ext_mask }}"
+      allow_service: none
+      provider: "{{ provider }}"
+
+  - name: Create Internal VLAN
+    bigip_vlan:
+      name: internal.vlan
+      untagged_interface: 1.1
+      tag: 4094
+      provider: "{{ provider }}"
+
+  - name: Create Internal Self IP
+    bigip_selfip:
+      name: internal.self
+      vlan: internal.vlan
+      address: "{{ int_ip }}"
+      netmask: "{{ int_mask }}"
+      allow_service: all
+      provider: "{{ provider }}"
+
+  - name: Save Sys Config
+    bigip_config:
+      save: true
+      provider: "{{ provider }}"
+
+  - name: Disable the setup utility
+    bigip_sys_global:
+      gui_setup: no
+      provider: "{{ provider }}"
+
+  - name: Provision LTM
+    bigip_provision:
+      module: ltm
+      level: nominal
+      provider: "{{ provider }}"
+
+  - name: Wait for Provisioning to Complete 
+    pause:
+      seconds: 120
+
+  - name: Change User Passwords
+    no_log: true
+    bigip_user:
+      username_credential: "{{ item.user }}" 
+      password_credential: "{{ item.passwd }}" 
+      provider: "{{ provider }}"
+    loop:
+    - user: "{{ ansible_ssh_user }}"
+      passwd: "{{ ansible_ssh_pass }}"
+    - user: "{{ admin_user }}"
+      passwd: "{{ admin_password }}"
