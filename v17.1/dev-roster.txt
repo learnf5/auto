@@ -1,9 +1,0 @@
-ANS-C5L01-Yaml:
-ANS-C5L03-Trust: has-bigip
-ANS-C5L05-Playbooks: has-bigip
-ANS-C5L07-InvFile: has-bigip has-ha
-ANS-C5L10-Commands: has-bigip
-ANS-C5L12-Apps: has-bigip
-ANS-C5L14-Onboard: has-bigip has-ha
-ANS-C5L16-License: has-bigip has-ha
-ANS-C5L18-Roles: has-bigip has-ha
