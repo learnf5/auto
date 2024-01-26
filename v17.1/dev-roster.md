@@ -1,4 +1,5 @@
---------------------|---------|--------
+Device              | Resource| Resource
+--------------------|---------|---------
 ANS-C5L01-Yaml      |         |
 ANS-C5L03-Trust     | bigip1a |
 ANS-C5L05-Playbooks | bigip1a |
