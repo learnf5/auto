@@ -1,4 +1,4 @@
-Device              | BIGIP1A | BIGIP1B
+DEVICE              | BIGIP1A | BIGIP1B
 --------------------|---------|---------
 ANS-C5L01-Yaml      |         |
 ANS-C5L03-Trust     | bigip1a |
