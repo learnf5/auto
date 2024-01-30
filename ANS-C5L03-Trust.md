@@ -4,6 +4,7 @@
 - Creating an Alternate Trust Relationship
 
 ## Lab Credentials and IP Address List
+
 External IP  | Internal IP   | Management IP | Hostname | Credentials / Comments
 -------------|---------------|---------------|----------|-----------------------------------
 10.10.0.0/16 | 172.16.0.0/16 | 192.168.0.0   |          | *Lab Network*
@@ -41,13 +42,13 @@ jump$ cd
 jump$ pwd
 /home/student
 ```
-2. You must create an Ansible inventory file, which is a list of the machines you plan to configure or query. This file is typically named hosts, but should not be confused with the computer’s hosts file (/etc/hosts) which maps hostnames to IP addresses and is used when DNS is not available. So far, you only have one device to be work with, ubuntu1a:
+1. You must create an Ansible inventory file, which is a list of the machines you plan to configure or query. This file is typically named hosts, but should not be confused with the computer’s hosts file (/etc/hosts) which maps hostnames to IP addresses and is used when DNS is not available. So far, you only have one device to be work with, ubuntu1a:
 
-  &nbsp; | Filename: ~/hosts
+         | Filename: ~/hosts
   -------|------------------
   01     | ubuntu1a
 
-3. In the following step, Ansible is trying ping ubuntu1a to determine if it can configure it. Ansible attempts to ssh to ubuntu1a, but ssh is unable to connect because it is uncertain about the authenticity of the remote host. If you type yes, the connection will proceed. In this case, we want the command to complete without any further user intervention. Type no when you get to the prompt. Type the following ssh command to confirm the first part of the Ansible message is from ssh
+1. In the following step, Ansible is trying ping ubuntu1a to determine if it can configure it. Ansible attempts to ssh to ubuntu1a, but ssh is unable to connect because it is uncertain about the authenticity of the remote host. If you type yes, the connection will proceed. In this case, we want the command to complete without any further user intervention. Type no when you get to the prompt. Type the following ssh command to confirm the first part of the Ansible message is from ssh
 
 >[+Note] Synopsis: ping is a trivial test module, that always returns pong on successful contact. It may not make sense in most playbooks, but it is useful to verify the ability to log in and confirm that Python is properly configured.  
 
@@ -72,13 +73,13 @@ jump$
 
 Q: What unattended use cases do you have? ___________________________________________
 
-4. If you instinctively typed yes at either of the ssh prompts above, ubuntu1a is now in the known hosts file and you will need to remove it as shown here: 
+1. If you instinctively typed yes at either of the ssh prompts above, ubuntu1a is now in the known hosts file and you will need to remove it as shown here: 
 
 >[+Note] Note:  Normally you would only delete the ubuntu1a entry within that file, but currently it is the only entry
 
 `rm ~/.ssh/known_hosts`
 
-5. To prevent the ssh warning, create an Ansible configuration file as shown here:
+1. To prevent the ssh warning, create an Ansible configuration file as shown here:
 
   &nbsp;|Filename: ~/.ansible.cfg
   ------|--------------
@@ -95,7 +96,7 @@ ansible.cfg	Overrides command launched from a specific directory
 
 >[+Note] Note: Starting a filename with a dot makes the file invisible to the base ls command. To see file names starting with a dot, use the command with a flag: ls -a
 
-6.	Try to run the ansible ping command again
+1.	Try to run the ansible ping command again
 
 >[+Note] Note: Because of the above configuration, Ansible (using ssh) permanently added ubuntu1a to the list of known hosts. However, permission is still denied. Try ssh’ing as shown below and you will determine that ubuntu1a requires a password
 
@@ -111,13 +112,13 @@ student@ubuntu1a's password: <CTRL-C>
 jump1$
 ```
 
-7.	Edit the hosts file to include the password for user student on ubuntu1a
+1.	Edit the hosts file to include the password for user student on ubuntu1a
 
 >[+Note] Note: Spaces matter in the hosts file. Do not put spaces around the equal sign here
 Filename: ~/hosts
 01	ubuntu1a ansible_ssh_pass=student
 
-8.	Try the ansible command for a third time and note that it succeeds, but with a warning:
+1.	Try the ansible command for a third time and note that it succeeds, but with a warning:
 
 >[+Note] Note: Starting with Ansible 2.9, any system using Python 2 will generate a deprecation warning. You can get rid of the warning by telling Ansible to use Python 3 in the hosts file
 
@@ -125,7 +126,7 @@ Filename: ~/hosts
 [DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host ubuntu1a should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible release will default to using the discovered platform python for this host.
 See https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
 
-9.	If you did not receive a deprecation warning, you should have seen the following output:
+1.	If you did not receive a deprecation warning, you should have seen the following output:
 ```BASH-nocopy
 ubuntu1a | SUCCESS => {
     "ansible_facts": { 
@@ -136,7 +137,7 @@ ubuntu1a | SUCCESS => {
 }
 ```
 
-10.	Edit the .ansible.cfg file to include a directive to tell Ansible to use Python 3. Do not put spaces around the equal sign here:
+1.	Edit the .ansible.cfg file to include a directive to tell Ansible to use Python 3. Do not put spaces around the equal sign here:
 
   &nbsp;| Filename: ~/.ansible.cfg
   ------|-------------------------
@@ -144,7 +145,7 @@ ubuntu1a | SUCCESS => {
     02| host_key_checking=false
     03| interpreter_python=python3
 
-11. Try the ansible command again and note that it succeeds this time without a warning or additional text. The command returns a success status and two additional lines
+1. Try the ansible command again and note that it succeeds this time without a warning or additional text. The command returns a success status and two additional lines
 ```BASH-nocopy
 jump$ ansible ubuntu1a --inventory-file=hosts --module-name=ping
 ubuntu1a | SUCCESS => {
@@ -154,7 +155,7 @@ ubuntu1a | SUCCESS => {
 jump$ 
 ```
 
-12.	Answer the following questions:
+1.	Answer the following questions:
 
  	Q: Did the command make any changes on ubuntu1a? ___________________________________
 
@@ -168,7 +169,7 @@ jump$
 
 ## Make the Ansible command more convenient to use
 
-13.	You can make the command a little shorter by avoiding the second argument if you add that information to the Ansible configuration file. Edit that information into the Ansible configuration you created earlier:
+1.	You can make the command a little shorter by avoiding the second argument if you add that information to the Ansible configuration file. Edit that information into the Ansible configuration you created earlier:
 
 >[+Note] Note: Spaces around the equal sign are acceptable in this file
 
@@ -179,7 +180,7 @@ jump$
     03 | interpreter_python=python3
     04 | inventory=hosts
 
-14. Try the command now, without the inventory-file flag
+1. Try the command now, without the inventory-file flag
 
 ```BASH-nocopy
 jump$ ansible ubuntu1a --module-name=ping
@@ -190,7 +191,7 @@ ubuntu1a | SUCCESS => {
 jump$
 ```
 
-15. Finally, if you want this command to apply to all of the hosts in the inventory, replace the host name with the word all
+1. Finally, if you want this command to apply to all of the hosts in the inventory, replace the host name with the word all
 
 >[+Note] Note: In your case there is only one host in that file, so the results will be the same
 
@@ -205,7 +206,7 @@ jump$
 
 Q: Why would you use the Ansible ping command? ___________________________________________
 
-16. Edit the hosts file to include the username for user student on ubuntu1a
+1. Edit the hosts file to include the username for user student on ubuntu1a
 
 >[+Note] Note: Spaces matter in the hosts file.  Do not put spaces around the equal sign here
 
@@ -213,7 +214,7 @@ Q: Why would you use the Ansible ping command? _________________________________
 -------|------------------
     01 | ubuntu1a ansible_ssh_user=student ansible_ssh_pass=student
 
-17.	Run the Ansible ping command again
+1.	Run the Ansible ping command again
 
 Q: Did it work this time? ___________________________________________
 
