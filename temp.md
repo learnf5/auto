@@ -3,10 +3,10 @@
 1. more stuff
 1. even more stuff
 
-  a. xyz
+> a. xyz
 
-  a. abc
+> a. abc
 
-  a. ijk
+> a. ijk
 
 1. yet more stuff
