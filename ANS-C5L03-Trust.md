@@ -46,7 +46,7 @@ jump$ pwd
 
   --     | Filename: ~/hosts
   -------|------------------
-  01     | ubuntu1a
+  01     | `ubuntu1a`
 
 1. In the following step, Ansible is trying ping ubuntu1a to determine if it can configure it. Ansible attempts to ssh to ubuntu1a, but ssh is unable to connect because it is uncertain about the authenticity of the remote host. If you type yes, the connection will proceed. In this case, we want the command to complete without any further user intervention. Type no when you get to the prompt. Type the following ssh command to confirm the first part of the Ansible message is from ssh
 
@@ -81,10 +81,10 @@ Q: What unattended use cases do you have? ______________________________________
 
 1. To prevent the ssh warning, create an Ansible configuration file as shown here:
 
-  -- | Filename: ~/.ansible.cfg
-  ---|--------------
-  01 | [defaults]
-  02 | host_key_checking=false
+-- | Filename: ~/.ansible.cfg
+---|--------------
+01 | `[defaults]`
+02 | `host_key_checking=false`
 
 >[+Note] Note: Ansible allows you to override the default behavior of ansible commands using the following (in order of highest precedence):
 ANSIBLE_CONFIG	Environment variable overrides individual user sessions
