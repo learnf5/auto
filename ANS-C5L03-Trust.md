@@ -259,7 +259,7 @@ At the end of this lab you will be able to:
 -------|------------------
     01 | ubuntu1a ansible_ssh_user=ansible ansible_ssh_pass=ansible
 
-2.	Rerun the Ansible ping command
+1.	Rerun the Ansible ping command
 
 ```BASH-nocopy
 jump$ ansible all --module-name=ping
@@ -276,7 +276,7 @@ Note: In the ansible command above, you changed the target from ubuntu1a to all,
 
 ### Run a different command
 
-3. Until now, you have only used the ping module in the ansible command.   Try a new one here:
+1. Until now, you have only used the ping module in the ansible command.   Try a new one here:
 
 ```BASH-nocopy
 jump$ ansible all --module-name=command --args=date
@@ -285,7 +285,7 @@ Sun Mar 18 21:50:40 EDT 2018
 jump$
 ```
 
-4. Answer the following questions:
+1. Answer the following questions:
 
  	Q: What new module did you run in this command? ___________________________________________
 
@@ -293,7 +293,7 @@ jump$
 
 ### Run a command that requires superuser privileges
 
-5. Use ansible to run the apt update command as shown here:
+1. Use ansible to run the apt update command as shown here:
 
 ```BASH-nocopy
 jump$ ansible all --module-name=apt --args="update-cache=true"
@@ -310,13 +310,13 @@ Q: What do the args tell the module? ___________________________________________
 
 Q: Why did the command fail? ___________________________________________
 
-6. The apt update command needs to run as superuser (root). Change the username and password in the hosts file to root as shown here:
+1. The apt update command needs to run as superuser (root). Change the username and password in the hosts file to root as shown here:
 
 &nbsp; | Filename: ~/hosts
 -------|------------------
     01 | ubuntu1a ansible_ssh_user=root ansible_ssh_pass=root
 
-7. Rerun the Ansible command
+1. Rerun the Ansible command
 
 ```BASH-nocopy
 jump$ ansible all --module-name=apt --args="update-cache=true"
@@ -328,11 +328,11 @@ ubuntu1a | UNREACHABLE! => {
 jump$
 ```
 
-8.	Answer the following questions:
+1.	Answer the following questions:
 
 Q: Why did authorization fail? ___________________________________________
 
-9. Test it for yourself by ssh’ing to ubuntu1a as root
+1. Test it for yourself by ssh’ing to ubuntu1a as root
 
 ``` BASH-nocopy
 jump$ ssh root@ubuntu1a
@@ -345,7 +345,7 @@ Q: Why did this command fail? ___________________________________________
 
 >[+Hint] Hint: the ssh results give you the answer
 
-10. You tried using Ansible to log in as user ansible and discovered you did not have sufficient privileges. Next you tried logging in as root only to learn that didn’t work either because Ubuntu will not allow ssh to the superuser (root) account.Try using Ansible to log in with a working, non-privileged account and escalate privileges with sudo. Edit the hosts file as shown
+1. You tried using Ansible to log in as user ansible and discovered you did not have sufficient privileges. Next you tried logging in as root only to learn that didn’t work either because Ubuntu will not allow ssh to the superuser (root) account.Try using Ansible to log in with a working, non-privileged account and escalate privileges with sudo. Edit the hosts file as shown
 
 >[+Hint] Remember: With sudo, you use the user’s password, not the root password 
   
@@ -357,7 +357,7 @@ Q: Why did this command fail? ___________________________________________
     .. | ansible_become=true ansible_become_method=sudo
     .. | ansible_sudo_pass=ansible
 
-11. In addition to the hostname, there are five directives on this line. What do each of them do?
+1. In addition to the hostname, there are five directives on this line. What do each of them do?
 Describe the following directives:
 
 ansible_ssh_user=ansible ___________________________________________
@@ -370,7 +370,7 @@ ansible_become_method=sudo ___________________________________________
 
 ansible_sudo_pass=ansible ___________________________________________
 
-12. Rerun the Ansible command to perform an apt update
+1. Rerun the Ansible command to perform an apt update
 
 ``` BASH-nocopy
 jump$ ansible all --module-name=apt --args="update-cache=true"
@@ -387,7 +387,7 @@ Q: Did it work this time? ___________________________________________
 Q: What password did you provide to enable privilege escalation? ___________________________________________
 
 ### Use su instead of sudo
-13. On some machines, sudo may not be available, or the user account may not have sudo access.  In this case, you will need to use the su method to escalate privilege mode, ie, become superuser.  Test the following example:
+1. On some machines, sudo may not be available, or the user account may not have sudo access.  In this case, you will need to use the su method to escalate privilege mode, ie, become superuser.  Test the following example:
 
 &nbsp; | Filename: ~/hosts
 -------|------------------
@@ -395,7 +395,7 @@ Q: What password did you provide to enable privilege escalation? _______________
     .. | ansible_become=true ansible_become_method=su
     .. | ansible_su_pass=root
 
-14. Two of the directives changed this time.  What are they and what do they do?
+1. Two of the directives changed this time.  What are they and what do they do?
 
 First directive: ___________________________________________ 
 
@@ -403,7 +403,7 @@ Second directive: ___________________________________________
 
 >[+Note] Note: If you don’t change the second directive, the ansible command will fail with a Timeout waiting for privilege escalation prompt message
 
-15. Rerun the Ansible command
+1. Rerun the Ansible command
 
 ``` BASH-nocopy
 jump$ ansible ubuntu1a --module-name=apt --args="update-cache=true"
