@@ -139,11 +139,11 @@ ubuntu1a | SUCCESS => {
 
 1.	Edit the .ansible.cfg file to include a directive to tell Ansible to use Python 3. Do not put spaces around the equal sign here:
 
-  &nbsp;| Filename: ~/.ansible.cfg
-  ------|-------------------------
-    01| [defaults]
-    02| host_key_checking=false
-    03| interpreter_python=python3
+-- | Filename: ~/.ansible.cfg
+---|-------------------------
+01 | [defaults]
+02 | host_key_checking=false
+03 | interpreter_python=python3
 
 1. Try the ansible command again and note that it succeeds this time without a warning or additional text. The command returns a success status and two additional lines
 ```BASH-nocopy
