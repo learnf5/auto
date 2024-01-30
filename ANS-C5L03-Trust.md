@@ -81,10 +81,10 @@ Q: What unattended use cases do you have? ______________________________________
 
 1. To prevent the ssh warning, create an Ansible configuration file as shown here:
 
-  &nbsp;|Filename: ~/.ansible.cfg
-  ------|--------------
-      01|[defaults]
-      02|host_key_checking=false
+  -- | Filename: ~/.ansible.cfg
+  ---|--------------
+  01 | [defaults]
+  02 | host_key_checking=false
 
 >[+Note] Note: Ansible allows you to override the default behavior of ansible commands using the following (in order of highest precedence):
 ANSIBLE_CONFIG	Environment variable overrides individual user sessions
