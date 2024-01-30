@@ -44,7 +44,7 @@ jump$ pwd
 ```
 1. You must create an Ansible inventory file, which is a list of the machines you plan to configure or query. This file is typically named hosts, but should not be confused with the computer’s hosts file (/etc/hosts) which maps hostnames to IP addresses and is used when DNS is not available. So far, you only have one device to be work with, ubuntu1a:
 
-         | Filename: ~/hosts
+  --     | Filename: ~/hosts
   -------|------------------
   01     | ubuntu1a
 
