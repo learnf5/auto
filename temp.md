@@ -2,7 +2,8 @@
 1. stuff
 1. more stuff
 1. even more stuff
-- a. xyz
-- a. abc
-- a. ijk
+- xyz
+- abc
+- ijk
 1. yet more stuff
+1. oh no more stuff
